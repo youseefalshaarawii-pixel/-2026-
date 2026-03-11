@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مراجعة الرياضيات - مدرسة السلم الخامسة</title>
+<meta property="og:title" content="مراجعة مادة الرياضيات">
+<meta property="og:description" content="ألعاب تعليمية ممتعة لمراجعة منهج الرياضيات">
+<meta property="og:image" content="preview.png">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #c0392b;
+    --dark-red: #7b0000;
+    --yellow: #f9ca24;
+    --orange: #f0932b;
+    --green: #6ab04c;
+    --blue: #4a90e2;
+    --purple: #a29bfe;
+    --pink: #fd79a8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    background: #1a0000;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ===== ANIMATED BACKGROUND ===== */
+  .bg {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, #4a0000 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, #6b0000 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, #3a0000 0%, transparent 60%),
+                linear-gradient(180deg, #1a0000 0%, #350000 50%, #1a0000 100%);
+    z-index: 0;
+  }
+
+  /* Stars */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    animation: twinkle var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* Floating math symbols */
+  .floaters {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .float-sym {
+    position: absolute;
+    font-size: var(--size);
+    color: rgba(255,255,255,0.07);
+    font-weight: 900;
+    animation: floatUp var(--dur) linear infinite;
+    animation-delay: var(--delay);
+    bottom: -100px;
+    left: var(--left);
+    font-family: 'Fredoka One', cursive;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .container {
+    position: relative;
+    z-index: 10;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 20px 40px;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 30px 0 20px;
+  }
+
+  .logo-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+  .logo-ring {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 3px dashed rgba(255,220,100,0.5);
+    animation: spin 10s linear infinite;
+  }
+  .logo-ring2 {
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255,150,100,0.3);
+    animation: spin 15s linear infinite reverse;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .logo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 4px solid var(--yellow);
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 0 30px rgba(249,202,36,0.4), 0 0 60px rgba(249,202,36,0.2);
+    background: rgba(255,255,255,0.1);
+    position: relative;
+  }
+  /* Fallback emoji if logo missing */
+  .logo-emoji {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 4px solid var(--yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 30px rgba(249,202,36,0.4);
+    position: relative;
+  }
+
+  .school-name {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--yellow);
+    text-shadow: 0 2px 10px rgba(249,202,36,0.5);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== WELCOME BANNER ===== */
+  .welcome-banner {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 18px 20px;
+    margin: 15px 0;
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-banner::before {
+    content: '🌟';
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    font-size: 50px;
+    opacity: 0.15;
+    transform: rotate(20deg);
+  }
+  .welcome-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.92);
+  }
+  .teacher-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--yellow), var(--orange));
+    color: #5a2000;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 12px;
+    box-shadow: 0 4px 15px rgba(249,202,36,0.4);
+  }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    text-align: center;
+    margin: 20px 0 12px;
+    position: relative;
+  }
+  .section-title span {
+    background: linear-gradient(90deg, var(--yellow), var(--orange));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 20px;
+    font-weight: 900;
+  }
+  .section-title::after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 80px;
+    margin: 8px auto 0;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--yellow), var(--orange));
+  }
+
+  /* ===== CARDS ===== */
+  .cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    pointer-events: none;
+  }
+  .card::after {
+    content: '←';
+    position: absolute;
+    left: 16px;
+    font-size: 18px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: 0.3s;
+  }
+  .card:hover { transform: translateY(-5px) scale(1.02); }
+  .card:hover::after { opacity: 1; transform: translateX(0); }
+  .card:active { transform: scale(0.97); }
+
+  .card-c1 { background: linear-gradient(135deg, #1565c0, #0d47a1); box-shadow: 0 6px 20px rgba(21,101,192,0.5); }
+  .card-c2 { background: linear-gradient(135deg, #2e7d32, #1b5e20); box-shadow: 0 6px 20px rgba(46,125,50,0.5); }
+  .card-c3 { background: linear-gradient(135deg, #6a1b9a, #4a148c); box-shadow: 0 6px 20px rgba(106,27,154,0.5); }
+  .card-c4 { background: linear-gradient(135deg, #e65100, #bf360c); box-shadow: 0 6px 20px rgba(230,81,0,0.5); }
+  .card-c5 { background: linear-gradient(135deg, #c62828, #b71c1c); box-shadow: 0 6px 20px rgba(198,40,40,0.5); }
+  .card-c6 { background: linear-gradient(135deg, #00695c, #004d40); box-shadow: 0 6px 20px rgba(0,105,92,0.5); }
+
+  .card-icon {
+    font-size: 28px;
+    min-width: 40px;
+    text-align: center;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    animation: iconBounce 2s ease-in-out infinite;
+    animation-delay: var(--icon-delay, 0s);
+  }
+  @keyframes iconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .card-text { flex: 1; text-align: right; }
+  .card-label {
+    font-size: 12px;
+    opacity: 0.75;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .card-title { font-size: 16px; font-weight: 700; }
+
+  .card-arrow {
+    font-size: 18px;
+    opacity: 0.6;
+    transition: 0.3s;
+  }
+  .card:hover .card-arrow { opacity: 1; transform: translateX(-5px); }
+
+  /* Number badge */
+  .card-num {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+  .footer-heart { color: #e74c3c; animation: heartbeat 1s ease-in-out infinite; }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  /* Confetti on click */
+  .confetti {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 3px;
+    animation: confettiFall 1s ease-in forwards;
+  }
+  @keyframes confettiFall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100px) rotate(720deg); }
+  }
+
+  /* Entry animations */
+  .animate-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideIn 0.5s ease forwards;
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Floating math symbols -->
+<div class="floaters" id="floaters"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header animate-in" style="--delay:0.1s">
+    <div class="logo-wrap">
+      <div class="logo-ring"></div>
+      <div class="logo-ring2"></div>
+      <img src="logo.png" class="logo" alt="شعار المدرسة"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="logo-emoji" style="display:none">🏫</div>
+    </div>
+    <div class="school-name">مدرسة السلم الخامسة</div>
+  </div>
+
+  <!-- WELCOME BANNER -->
+  <div class="welcome-banner animate-in" style="--delay:0.2s">
+    <div class="welcome-text">
+      🎉 طلابي الأعزاء، أقدم لكم مراجعة على منهج الرياضيات<br>
+      منتصف الفصل الدراسي الثاني<br>
+      <strong>في شكل ألعاب تفاعلية ممتعة!</strong> 🎮
+    </div>
+    <div style="text-align:center">
+      <div class="teacher-badge">
+        👩‍🏫 معلمة المادة: أ/ ميسون حمدي
+      </div>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="section-title animate-in" style="--delay:0.3s">
+    <span>اختر الدرس وابدأ اللعب! 🚀</span>
+  </div>
+
+  <div class="cards-grid">
+
+    <a class="card card-c1 animate-in" href="https://wordwall.net/ar/resource/1771898/%D8%A7%D9%84%D8%AA%D9%85%D8%AB%D9%8A%D9%84-%D8%A8%D8%A7%D9%84%D8%A3%D8%B9%D9%85%D8%AF%D8%A9" target="_blank" style="--delay:0.35s" onclick="spawnConfetti(event)">
+      <div class="card-num">١</div>
+      <div class="card-icon" style="--icon-delay:0s">📊</div>
+      <div class="card-text">
+        <span class="card-label">إحصاء وبيانات</span>
+        <span class="card-title">التمثيل بالأعمدة (١)</span>
+      </div>
+      <span class="card-arrow">◀</span>
+    </a>
+
+    <a class="card card-c2 animate-in" href="https://wordwall.net/ar/resource/745580" target="_blank" style="--delay:0.4s" onclick="spawnConfetti(event)">
+      <div class="card-num">٢</div>
+      <div class="card-icon" style="--icon-delay:0.3s">📈</div>
+      <div class="card-text">
+        <span class="card-label">إحصاء وبيانات</span>
+        <span class="card-title">التمثيل بالأعمدة (٢)</span>
+      </div>
+      <span class="card-arrow">◀</span>
+    </a>
+
+    <a class="card card-c3 animate-in" href="https://gemini.google.com/share/fab33f048786" target="_blank" style="--delay:0.45s" onclick="spawnConfetti(event)">
+      <div class="card-num">٣</div>
+      <div class="card-icon" style="--icon-delay:0.6s">➕</div>
+      <div class="card-text">
+        <span class="card-label">العمليات الحسابية</span>
+        <span class="card-title">خواص الجمع</span>
+      </div>
+      <span class="card-arrow">◀</span>
+    </a>
+
+    <a class="card card-c4 animate-in" href="https://wordwall.net/ar/resource/9517485" target="_blank" style="--delay:0.5s" onclick="spawnConfetti(event)">
+      <div class="card-num">٤</div>
+      <div class="card-icon" style="--icon-delay:0.9s">🔢</div>
+      <div class="card-text">
+        <span class="card-label">الأعداد</span>
+        <span class="card-title">تقريب الأعداد الكلية</span>
+      </div>
+      <span class="card-arrow">◀</span>
+    </a>
+
+    <a class="card card-c5 animate-in" href="https://game.fedu.ai/student/game5/index.html?data=8WMzQafdkPqjmHKUeYwCS3Repm9d5v7jODUPrSGk%2BAcWWUmyXBoDzCu25FtcKxjqBQ3F%2BgOt2Zrr30x4BR4DtRDhNbJWcHl63UJx48wCdeXvo9fr834J0m%2F%2BeMhebyls" target="_blank" style="--delay:0.55s" onclick="spawnConfetti(event)">
+      <div class="card-num">٥</div>
+      <div class="card-icon" style="--icon-delay:1.2s">🔟</div>
+      <div class="card-text">
+        <span class="card-label">التقريب</span>
+        <span class="card-title">تقريب لأقرب عشرة</span>
+      </div>
+      <span class="card-arrow">◀</span>
+    </a>
+
+    <a class="card card-c6 animate-in" href="https://game.fedu.ai/student/game8/index.html?data=8WMzQafdkPqjmHKUeYwCS3Repm9d5v7jODUPrSGk%2BAempLDpuOOsrALTcp%2BoG9ncWMUD8mw%2FVAQj6vhZTfbGbIc9xpTC50pQKk8VQEJLpgoDtSxxtAGtfHqeTy5b3MgV" target="_blank" style="--delay:0.6s" onclick="spawnConfetti(event)">
+      <div class="card-num">٦</div>
+      <div class="card-icon" style="--icon-delay:1.5s">🧠</div>
+      <div class="card-text">
+        <span class="card-label">التقدير والتخمين</span>
+        <span class="card-title">تقدير نواتج الجمع والطرح</span>
+      </div>
+      <span class="card-arrow">◀</span>
+    </a>
+
+  </div>
+
+  <footer class="animate-in" style="--delay:0.7s">
+    صُنع بـ <span class="footer-heart">❤️</span> لطلاب الصف الثالث الابتدائي
+    <br>مدرسة السلم الخامسة · الفصل الدراسي الثاني
+  </footer>
+
+</div>
+
+<script>
+  // Generate stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:${['#fff','#ffd700','#ffaaaa','#aaffff'][Math.floor(Math.random()*4)]};
+      --dur:${Math.random()*3+2}s;
+      --delay:${Math.random()*4}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // Generate floating math symbols
+  const syms = ['+', '−', '×', '÷', '=', '١', '٢', '٣', '%', '∑', '?'];
+  const floatersEl = document.getElementById('floaters');
+  for (let i = 0; i < 18; i++) {
+    const f = document.createElement('div');
+    f.className = 'float-sym';
+    f.textContent = syms[Math.floor(Math.random() * syms.length)];
+    f.style.cssText = `
+      --size:${Math.random()*30+20}px;
+      --dur:${Math.random()*12+8}s;
+      --delay:-${Math.random()*12}s;
+      --left:${Math.random()*100}%;
+    `;
+    floatersEl.appendChild(f);
+  }
+
+  // Confetti on card click
+  function spawnConfetti(e) {
+    const colors = ['#f9ca24','#ff6b6b','#a29bfe','#6ab04c','#fd79a8','#00cec9'];
+    for (let i = 0; i < 12; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      const size = Math.random() * 10 + 5;
+      c.style.cssText = `
+        width:${size}px; height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        left:${e.clientX + (Math.random()-0.5)*60}px;
+        top:${e.clientY + (Math.random()-0.5)*30}px;
+        transform:rotate(${Math.random()*360}deg);
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 1000);
+    }
+  }
+</script>
+</body>
+</html>
